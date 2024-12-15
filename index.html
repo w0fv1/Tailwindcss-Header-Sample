@@ -12,7 +12,7 @@
     tailwind.config = {
       darkMode: 'class', // 使用 'class' 策略
       content: [
-      
+
       ],
       theme: {
         extend: {},
@@ -103,22 +103,23 @@
       }
     });
 
-    // 移动端菜单切换
     function toggleMobileMenu() {
       const mobileMenu = document.getElementById('mobile-menu');
-      mobileMenu.classList.toggle('hidden');
+
+      const hideClasses = ['invisible', 'opacity-0', '-translate-y-full', 'sm:translate-x-full'];
+      const showClasses = ['opacity-100', 'translate-y-0', 'sm:translate-x-0'];
+
+      hideClasses.forEach(cls => mobileMenu.classList.toggle(cls));
+      showClasses.forEach(cls => mobileMenu.classList.toggle(cls));
     }
+
 
     // 移动端菜单中 'Product' 子菜单切换并旋转箭头
     function toggleDropdownMobile(menuId) {
       const menu = document.getElementById(menuId);
-      menu.classList.toggle('opacity-100');
-      menu.classList.toggle('scale-100');
-      menu.classList.toggle('visible');
-      menu.classList.toggle('opacity-0');
-      menu.classList.toggle('scale-95');
-      menu.classList.toggle('invisible');
-      menu.classList.toggle('absolute');
+      const classesToToggle = ['opacity-100', 'scale-100', 'visible', 'opacity-0', 'scale-95', 'invisible', 'absolute'];
+      // 批量切换类
+      classesToToggle.forEach(cls => menu.classList.toggle(cls));
 
       // 获取当前按钮的箭头图标并旋转
       const button = menu.parentElement.querySelector('button');
@@ -127,6 +128,7 @@
         arrow.classList.toggle('rotate-180');
       }
     }
+
   </script>
 </head>
 
@@ -233,14 +235,14 @@
           in <span aria-hidden="true">&rarr;</span></a>
       </div>
     </nav>
-
-    <!-- 移动端菜单 -->
-    <div id="mobile-menu" class="hidden lg:hidden" role="dialog" aria-modal="true">
+    <div id="mobile-menu"
+      class="lg:hidden fixed inset-0 z-50 invisible opacity-0 -translate-y-full sm:-translate-y-0 sm:translate-x-full transition-all duration-300 ease-out h-screen"
+      role="dialog" aria-modal="true">
       <!-- 背景遮罩 -->
-      <div class="fixed inset-0 z-10"></div>
-      <!-- 菜单内容 -->
+      <div class="fixed inset-0 z-10 bg-black bg-opacity-30 transition-opacity duration-300" onclick="toggleMobileMenu()"></div>
+
       <div
-        class="fixed inset-y-0 right-0 z-20 w-full overflow-y-auto bg-white dark:bg-slate-800 px-4 py-4 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+        class="relative z-20 bg-white dark:bg-slate-800 px-4 py-4 h-full overflow-y-auto ring-1 ring-gray-900/10 dark:ring-slate-600 sm:max-w-sm sm:ms-auto">
         <div class="flex items-center justify-between">
           <a href="#" class="-m-1.5 p-1.5">
             <span class="sr-only">Your Company</span>
@@ -251,7 +253,6 @@
             <!-- 主题切换按钮 -->
             <button onclick="toggleTheme()"
               class="mr-2 p-2 bg-gray-200 dark:bg-gray-700 rounded transition-transform duration-200 hover:scale-105">
-              <!-- 图标根据主题切换 -->
               <svg id="theme-toggle-light-icon-mobile"
                 class="w-4 h-4 hidden dark:block transition-transform duration-200" fill="none" stroke="currentColor"
                 viewBox="0 0 24 24">
@@ -268,7 +269,6 @@
             <button type="button" onclick="toggleMobileMenu()"
               class="-m-2.5 rounded-md p-2.5 text-gray-700 dark:text-gray-300 transition-transform duration-200 hover:scale-105">
               <span class="sr-only">关闭菜单</span>
-              <!-- 关闭图标 -->
               <svg class="h-6 w-6 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -276,6 +276,7 @@
             </button>
           </div>
         </div>
+
         <div class="mt-6 flow-root">
           <div class="-my-6 divide-y divide-gray-500/10 dark:divide-slate-600">
             <div class="space-y-2 py-6">
